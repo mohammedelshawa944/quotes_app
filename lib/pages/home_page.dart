@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:quotes_app/helper/network_helper/network.dart';
 import 'package:quotes_app/models/image_model/image_model.dart';
+import 'package:quotes_app/models/quotes_model/quotes_model.dart';
 
 class HomePage extends StatefulWidget {
-   HomePage({Key? key, required this.model}) : super(key: key);
+   HomePage({Key? key, required this.model,required this.quotableModel}) : super(key: key);
 
   ImageModel model;
+  QuotableModel quotableModel ;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -61,17 +63,34 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image(
-                              image: AssetImage( 'assets/images/pngegg.png',),width: 80,height: 80,),
-                          Padding(
-                            padding: const EdgeInsets.only(left:  30.0,top: 6),
-                            child: Text('Life is what happens when youre busy making other plans. -John Lennon',style:
+                          Expanded(
+                            child: Image(
+                                image: AssetImage( 'assets/images/pngegg.png',),width: 80,height: 80,),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:  30.0,top: 6),
+                              child: Text('${widget.quotableModel.content}',style:
+                                TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+
+                                ),),
+                            ),
+                          ),
+                          SizedBox(height: 60,),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:  130.0),
+                              child: Text('- ${widget.quotableModel.author} -',style:
                               TextStyle(
-                                fontSize: 28,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
 
                               ),),
+                            ),
                           )
                         ],
                       )
