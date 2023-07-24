@@ -107,6 +107,26 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 110.0,top: 150),
+                      child: ElevatedButton(
+                        style: ButtonStyle(backgroundColor:MaterialStatePropertyAll(Colors.white70)),
+                          onPressed: (){},
+                          child: Row(
+                            children: [
+                              Icon(Icons.camera_alt_outlined,color: Colors.black,size: 30,),
+                              SizedBox(width: 8,),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Take Screenshot',style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black
+                                ),),
+                              )
+                            ],
+                          ),
+                      ),
                     )
                   ],
                 ),
