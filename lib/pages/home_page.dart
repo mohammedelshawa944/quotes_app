@@ -5,16 +5,23 @@ import 'package:quotes_app/models/quotes_model/quotes_model.dart';
 import 'package:quotes_app/pages/loading_screen.dart';
 
 class HomePage extends StatefulWidget {
-   HomePage({Key? key, required this.model,required this.quotableModel}) : super(key: key);
+   HomePage({Key? key, required this.modelIm,required this.modelQu}) : super(key: key);
 
-  ImageModel model;
-  QuotableModel quotableModel ;
+  ImageModel modelIm;
+  QuotableModel modelQu ;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+  void getDataQuotable( )async{
+    widget.modelQu = await NetworkHelper().getQuotableDataNetwork('https://api.quotable.io/random');
+    widget.modelIm =await  NetworkHelper().getImageDataNetwork('https://random.imagecdn.app/v1/image?width=500&height=150&category=${widget.modelQu.tags??'Sport'}&format=json');
+    setState(() {});
+  }
 
 
   @override
@@ -26,7 +33,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                 image: widget.model.url != null? NetworkImage('${widget.model.url}') :
+                 image: widget.modelIm.url != null? NetworkImage('${widget.modelIm.url}') :
                  NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJzMNWNPsA8KiUFY_YiEC7rub3JEDOCUXXHwJ40dp7&s'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
@@ -46,16 +53,16 @@ class _HomePageState extends State<HomePage> {
                         Icon(Icons.search,size: 30,),
                         SizedBox(width: 15,),
                         IconButton(onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> LoadingScreen()));
+
                         }, icon: Icon(Icons.refresh,size: 30,color: Colors.black,),)
                       ],
                     ),
-                    SizedBox(height: 20,),
-                    Text('Quotes',style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
-                    ),),
+                    SizedBox(height: 60,),
+                    // Text('Quotes',style: TextStyle(
+                    //   fontSize: 40,
+                    //   fontWeight: FontWeight.bold,
+                    //   color: Colors.black
+                    // ),),
                     SizedBox(height: 60,),
                     Container(
                       padding: EdgeInsets.all(13.0),
@@ -73,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(left:  30.0),
-                              child: Text('${widget.quotableModel.content}',style:
+                              child: Text('${widget.modelQu.content}',style:
                                 TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -86,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(left:  130.0),
-                              child: Text('- ${widget.quotableModel.author} -',style:
+                              child: Text('- ${widget.modelQu.author} -',style:
                               TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,

@@ -14,25 +14,17 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
 
 
+  QuotableModel quotableModel = QuotableModel();
   ImageModel imageModel = ImageModel();
 
-  void getDataImage()async{
-    await NetworkHelper().getImageDataNetwork('https://random.imagecdn.app/v1/image?width=500&height=150&category=Business&format=json').then((value) {
-      imageModel = value;
-    });
-  }
+  void getDataQuotable( )async{
+    quotableModel = await NetworkHelper().getQuotableDataNetwork('https://api.quotable.io/random');
+    imageModel =await  NetworkHelper().getImageDataNetwork('https://random.imagecdn.app/v1/image?width=500&height=150&category=${quotableModel.tags??'Sport'}&format=json');
 
-  QuotableModel quotableModel = QuotableModel();
-  List<String>? tags=[];
-
-  void getDataQuotable()async{
-    await NetworkHelper().getQuotableDataNetwork('https://api.quotable.io/random').then((value) {
-      quotableModel = value;
-    });
-    tags = quotableModel.tags;
+    print(quotableModel.tags);
     if(mounted){
       Navigator.push(context, MaterialPageRoute(builder: (context){
-        return HomePage(model:  imageModel, quotableModel: quotableModel,);
+        return HomePage(modelIm: imageModel,modelQu: quotableModel,);
       }));
     }
   }
@@ -40,7 +32,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   void initState(){
-    getDataImage();
     getDataQuotable();
     super.initState();
   }
